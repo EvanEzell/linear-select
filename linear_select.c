@@ -36,13 +36,13 @@ int partition(int *arr, int left, int right, int pivot) {
 }
 
 /* insertion sort and return index of median */
-int partition5(int *list, int left, int right) {
+int partition5(int *arr, int left, int right) {
     int i, j;
     i = left + 1;
     while (i <= right) {
         j = i;
-        while (j > left && list[j-1] > list[j]) {
-            swap(&list[j-1],&list[j]);
+        while (j > left && arr[j-1] > arr[j]) {
+            swap(&arr[j-1],&arr[j]);
             j = j - 1;
         }
         i = i + 1;
@@ -51,14 +51,14 @@ int partition5(int *list, int left, int right) {
     return floor((left+right)/2);
 }
 
-/* find the nth order statistic */
-int lselect(int *arr, int left, int right, int n) {
+/* find the kth order statistic */
+int lselect(int *arr, int left, int right, int k) {
     int pivotIndex;
 
     for (;;) {
         if (right - left <= 50) {
             mergeSort(arr, left, right);
-            return n;
+            return k;
         }
 
         pivotIndex = pivot(arr, left, right);
@@ -69,25 +69,25 @@ int lselect(int *arr, int left, int right, int n) {
         else if (n > pivotIndex)
             left = pivotIndex + 1;
         else
-            return n;
+            return k;
     }
 }
 
 /* find the median of medians */
-int pivot(int *list, int left, int right) {
+int pivot(int *arr, int left, int right) {
     if (right - left < 5)
-        return partition5(list, left, right);
+        return partition5(arr, left, right);
 
     int i, subRight, median5, mid;
     for (i = left; i < right; i += 5) {
         subRight = i + 4; 
         if (subRight > right) subRight = right;
-        median5 = partition5(list, i, subRight);
-        swap(&list[median5],&list[left + (int)floor((i-left)/5)]);
+        median5 = partition5(arr, i, subRight);
+        swap(&arr[median5],&arr[left + (int)floor((i-left)/5)]);
     }
 
     mid = (right - left) / 10 + left + 1;
-    return lselect(list, left, left + (int)floor((right-left)/5), mid);
+    return lselect(arr, left, left + (int)floor((right-left)/5), mid);
 }
 
 
