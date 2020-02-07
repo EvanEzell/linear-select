@@ -45,7 +45,12 @@ int main (int argc, char **argv) {
     int i, arr[n];
     for (i = 0; i < n; i++) {
         if(fscanf(input, "%d", arr + i) == 0) {
-            printf("error reading data\n");
+            fprintf(stderr,"error reading data\n");
+            usage();
+            exit(1);
+        }
+        if(fscanf(input, "%d", arr + i) == EOF) {
+            fprintf(stderr,"EOF reached before parsing %d numbers\n",n);
             usage();
             exit(1);
         }
