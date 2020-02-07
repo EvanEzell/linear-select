@@ -1,7 +1,6 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include <time.h>
 #include "mergesort.h"
 
 void usage() {
@@ -64,9 +63,9 @@ int lselect(int *arr, int left, int right, int k) {
         pivotIndex = pivot(arr, left, right);
         pivotIndex = partition(arr, left, right, pivotIndex);
         int i;
-        if (n < pivotIndex)
+        if (k < pivotIndex)
             right = pivotIndex - 1;
-        else if (n > pivotIndex)
+        else if (k > pivotIndex)
             left = pivotIndex + 1;
         else
             return k;
