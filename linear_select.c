@@ -1,14 +1,95 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <time.h>
+#include "mergesort.h"
 
 void usage() {
-    printf("usage: linear_select input_file k n\n");
+    printf("usage: linear_lselect input_file k n\n");
     printf("       input_file - file to be sorted, must contain ints ");
     printf("separated by a space\n");
-    printf("       k - the kth smallest element to be selected, must ");
+    printf("       k - the kth smallest element to be lselected, must ");
     printf("less than or equal to n\n");
     printf("       n - the number of elements to read from file\n");
 }
+
+void swap(int *x, int *y) {
+    int temp;
+    temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+/* three-way partition, return new index of pivot */
+int partition(int *arr, int left, int right, int pivot) {
+    int i;
+    i = left - 1;
+
+    swap(&arr[pivot],&arr[right]);
+
+    for (; left < right; left++)
+        if (arr[left] < arr[right])
+            swap(&arr[++i],&arr[left]);
+    swap(&arr[right],&arr[i+1]);
+
+    return i+1;
+}
+
+/* insertion sort and return index of median */
+int partition5(int *list, int left, int right) {
+    int i, j;
+    i = left + 1;
+    while (i <= right) {
+        j = i;
+        while (j > left && list[j-1] > list[j]) {
+            swap(&list[j-1],&list[j]);
+            j = j - 1;
+        }
+        i = i + 1;
+    }
+
+    return floor((left+right)/2);
+}
+
+/* find the nth order statistic */
+int lselect(int *arr, int left, int right, int n) {
+    int pivotIndex;
+
+    for (;;) {
+        if (right - left <= 50) {
+            mergeSort(arr, left, right);
+            return n;
+        }
+
+        pivotIndex = pivot(arr, left, right);
+        pivotIndex = partition(arr, left, right, pivotIndex);
+        int i;
+        if (n < pivotIndex)
+            right = pivotIndex - 1;
+        else if (n > pivotIndex)
+            left = pivotIndex + 1;
+        else
+            return n;
+    }
+}
+
+/* find the median of medians */
+int pivot(int *list, int left, int right) {
+    if (right - left < 5)
+        return partition5(list, left, right);
+
+    int i, subRight, median5, mid;
+    for (i = left; i < right; i += 5) {
+        subRight = i + 4; 
+        if (subRight > right) subRight = right;
+        median5 = partition5(list, i, subRight);
+        swap(&list[median5],&list[left + (int)floor((i-left)/5)]);
+    }
+
+    mid = (right - left) / 10 + left + 1;
+    return lselect(list, left, left + (int)floor((right-left)/5), mid);
+}
+
 
 int main (int argc, char **argv) {
     int n, k;
@@ -41,11 +122,7 @@ int main (int argc, char **argv) {
         exit(1);
     }
 
-    printf("n: %d\n", n);
-    printf("k: %d\n", k);
-
-    int i;
-    int arr[n];
+    int i, arr[n];
     for (i = 0; i < n; i++) {
         if(fscanf(input, "%d", arr + i) == 0) {
             printf("error reading data\n");
@@ -54,12 +131,9 @@ int main (int argc, char **argv) {
         }
     }
 
-    for (i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
+    int result = lselect(arr, 0, n-1, k-1);
 
-    /* sorting logic */
+    printf("%d\n", arr[result]);
 
     fclose(input);
 }
