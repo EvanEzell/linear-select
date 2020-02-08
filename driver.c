@@ -12,7 +12,7 @@ void usage() {
 }
 
 int main (int argc, char **argv) {
-    int n, k;
+    int n, k, result;
     FILE *input;
 
     /* take inputs and read in file */
@@ -42,22 +42,21 @@ int main (int argc, char **argv) {
         exit(1);
     }
 
-    int i, arr[n];
+    int i, arr[n], ret;
     for (i = 0; i < n; i++) {
-        if(fscanf(input, "%d", arr + i) == 0) {
-            fprintf(stderr,"error reading data\n");
+        if((ret = fscanf(input, "%d", arr + i)) == 0) {
+            fprintf(stderr,"Error reading data. Only ints permitted\n");
             usage();
             exit(1);
         }
-        if(fscanf(input, "%d", arr + i) == EOF) {
-            fprintf(stderr,"EOF reached before parsing %d numbers\n",n);
+        if(ret == EOF) {
+            fprintf(stderr,"EOF reached before reading %d numbers\n",n);
             usage();
             exit(1);
         }
     }
 
-    int result = lselect(arr, 0, n-1, k-1);
-
+    result = lselect(arr, 0, n-1, k-1);
     printf("%d\n", arr[result]);
 
     fclose(input);

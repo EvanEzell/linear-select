@@ -26,16 +26,16 @@ int partition(int *arr, int left, int right, int pivot) {
 }
 
 /* insertion sort and return index of median */
-int partition5(int *arr, int left, int right) {
+int insertion(int *arr, int left, int right) {
     int i, j;
     i = left + 1;
     while (i <= right) {
         j = i;
         while (j > left && arr[j-1] > arr[j]) {
             swap(&arr[j-1],&arr[j]);
-            j = j - 1;
+            j--;
         }
-        i = i + 1;
+        i++;
     }
 
     return floor((left+right)/2);
@@ -43,7 +43,7 @@ int partition5(int *arr, int left, int right) {
 
 /* find the kth order statistic */
 int lselect(int *arr, int left, int right, int k) {
-    int pivotIndex;
+    int i, pivotIndex;
 
     for (;;) {
         if (right - left <= 50) {
@@ -53,7 +53,6 @@ int lselect(int *arr, int left, int right, int k) {
 
         pivotIndex = pivot(arr, left, right);
         pivotIndex = partition(arr, left, right, pivotIndex);
-        int i;
         if (k < pivotIndex)
             right = pivotIndex - 1;
         else if (k > pivotIndex)
@@ -66,14 +65,14 @@ int lselect(int *arr, int left, int right, int k) {
 /* find the median of medians */
 int pivot(int *arr, int left, int right) {
     if (right - left < 5)
-        return partition5(arr, left, right);
+        return insertion(arr, left, right);
 
-    int i, subRight, median5, mid;
+    int i, subRight, median, mid;
     for (i = left; i < right; i += 5) {
-        subRight = i + 4; 
-        if (subRight > right) subRight = right;
-        median5 = partition5(arr, i, subRight);
-        swap(&arr[median5],&arr[left + (int)floor((i-left)/5)]);
+        if ((subRight = i + 4) > right)
+            subRight = right;
+        median = insertion(arr, i, subRight);
+        swap(&arr[median],&arr[left + (int)floor((i-left)/5)]);
     }
 
     mid = (right - left) / 10 + left + 1;
