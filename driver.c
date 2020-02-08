@@ -55,8 +55,8 @@ int main (int argc, char **argv) {
         }
     }
 
+    fclose(input);
+
     result = lselect(arr, 0, n-1, k-1);
     printf("%d\n", arr[result]);
-
-    fclose(input);
 }
