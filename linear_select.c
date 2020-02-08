@@ -11,13 +11,13 @@ void swap(int *x, int *y) {
 /* three-way partition, return new index of pivot */
 int partition(int arr[], int left, int right, int pivot) {
     int i;
-    i = left - 1;
 
     swap(&arr[pivot],&arr[right]);
 
-    for (; left < right; left++)
+    for (i = left-1; left < right; left++)
         if (arr[left] < arr[right])
             swap(&arr[++i],&arr[left]);
+
     swap(&arr[right],&arr[++i]);
 
     return i;
