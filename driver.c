@@ -20,8 +20,7 @@ int main (int argc, char **argv) {
         usage();
         exit(1);
     }
-    if (sscanf(argv[3], "%d", &n) == 0 || sscanf(argv[2], "%d", &k) == 0)
-    {
+    if (sscanf(argv[3], "%d", &n) == 0 || sscanf(argv[2], "%d", &k) == 0) {
         fprintf(stderr,"n and k must be integers\n");
         usage();
         exit(1);
