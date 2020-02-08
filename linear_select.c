@@ -13,7 +13,7 @@ int partition(int arr[], int left, int right, int pivot) {
 
     swap(&arr[pivot],&arr[right]);
 
-    for (i = left-1; left < right; left++)
+    for (i = left - 1; left < right; left++)
         if (arr[left] < arr[right])
             swap(&arr[++i],&arr[left]);
 
@@ -26,7 +26,7 @@ int partition(int arr[], int left, int right, int pivot) {
 int insertion(int arr[], int left, int right) {
     int i, j;
 
-    for (i = left+1; i <= right; i++) {
+    for (i = left + 1; i <= right; i++) {
         j = i;
         while (j > left && arr[j-1] > arr[j]) {
             swap(&arr[j-1],&arr[j]);
