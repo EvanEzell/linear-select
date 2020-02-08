@@ -1,4 +1,3 @@
-#include <math.h>
 #include "mergesort.h"
 
 void swap(int *x, int *y) {
@@ -35,7 +34,7 @@ int insertion(int arr[], int left, int right) {
         }
     }
 
-    return floor((left+right)/2);
+    return left + (right - left) / 2; 
 }
 
 /* find the kth order statistic */
@@ -69,9 +68,9 @@ int pivot(int arr[], int left, int right) {
         if ((subRight = i + 4) > right)
             subRight = right;
         median = insertion(arr, i, subRight);
-        swap(&arr[median],&arr[left + (int)floor((i-left)/5)]);
+        swap(&arr[median],&arr[left + (i-left)/5]);
     }
 
     mid = (right - left) / 10 + left + 1;
-    return lselect(arr, left, left + (int)floor((right-left)/5), mid);
+    return lselect(arr, left, left + (right - left) / 5, mid);
 }

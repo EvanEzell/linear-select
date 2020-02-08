@@ -1,1 +1,1 @@
-gcc -O3 -lm -o linear_select mergesort.c linear_select.c driver.c
+gcc -O3 -o linear_select mergesort.c linear_select.c driver.c
