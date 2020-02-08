@@ -1,69 +1,47 @@
-/* mergesort taken from https://www.geeksforgeeks.org/c-program-for-merge-sort/ */
-void merge(int arr[], int l, int m, int r) 
-{ 
-    int i, j, k; 
-    int n1 = m - l + 1; 
-    int n2 =  r - m; 
+void merge(int arr[], int left, int mid, int right) { 
+    int i, j, k, lsize, rsize; 
+
+    /* create subarrays */
+    lsize = mid - left + 1; 
+    rsize =  right - mid; 
+    int Left[lsize], Right[rsize]; 
   
-    /* create temp arrays */
-    int L[n1], R[n2]; 
+    /* populate subarrays */
+    for (i = 0; i < lsize; i++) Left[i] = arr[left + i]; 
+    for (j = 0; j < rsize; j++) Right[j] = arr[mid + 1+ j]; 
   
-    /* Copy data to temp arrays L[] and R[] */
-    for (i = 0; i < n1; i++) 
-        L[i] = arr[l + i]; 
-    for (j = 0; j < n2; j++) 
-        R[j] = arr[m + 1+ j]; 
-  
-    /* Merge the temp arrays back into arr[l..r]*/
-    i = 0; // Initial index of first subarray 
-    j = 0; // Initial index of second subarray 
-    k = l; // Initial index of merged subarray 
-    while (i < n1 && j < n2) 
-    { 
-        if (L[i] <= R[j]) 
-        { 
-            arr[k] = L[i]; 
+    i = 0;
+    j = 0;
+    for (k = left; i < lsize && j < rsize; k++)
+        if (Left[i] <= Right[j]) { 
+            arr[k] = Left[i]; 
             i++; 
-        } 
-        else
-        { 
-            arr[k] = R[j]; 
+        } else { 
+            arr[k] = Right[j]; 
             j++; 
         } 
-        k++; 
-    } 
   
-    /* Copy the remaining elements of L[], if there 
-       are any */
-    while (i < n1) 
-    { 
-        arr[k] = L[i]; 
+    while (i < lsize) { 
+        arr[k] = Left[i]; 
         i++; 
         k++; 
     } 
   
-    /* Copy the remaining elements of R[], if there 
-       are any */
-    while (j < n2) 
-    { 
-        arr[k] = R[j]; 
+    while (j < rsize) { 
+        arr[k] = Right[j]; 
         j++; 
         k++; 
     } 
 } 
 
-void mergeSort(int arr[], int l, int r)
-{ 
-    if (l < r) 
-    { 
-        // Same as (l+r)/2, but avoids overflow for 
-        // large l and h 
-        int m = l+(r-l)/2; 
+void mergeSort(int arr[], int left, int right) { 
+    int mid;
+    if (left < right) { 
+        mid = left + (right-left)/2; 
   
-        // Sort first and second halves 
-        mergeSort(arr, l, m); 
-        mergeSort(arr, m+1, r); 
+        mergeSort(arr, left, mid); 
+        mergeSort(arr, mid+1, right); 
   
-        merge(arr, l, m, r); 
+        merge(arr, left, mid, right); 
     } 
 } 

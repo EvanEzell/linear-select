@@ -11,7 +11,7 @@ void swap(int *x, int *y) {
 }
 
 /* three-way partition, return new index of pivot */
-int partition(int *arr, int left, int right, int pivot) {
+int partition(int arr[], int left, int right, int pivot) {
     int i;
     i = left - 1;
 
@@ -20,13 +20,13 @@ int partition(int *arr, int left, int right, int pivot) {
     for (; left < right; left++)
         if (arr[left] < arr[right])
             swap(&arr[++i],&arr[left]);
-    swap(&arr[right],&arr[i+1]);
+    swap(&arr[right],&arr[++i]);
 
-    return i+1;
+    return i;
 }
 
 /* insertion sort and return index of median */
-int insertion(int *arr, int left, int right) {
+int insertion(int arr[], int left, int right) {
     int i, j;
     i = left + 1;
     while (i <= right) {
@@ -42,7 +42,7 @@ int insertion(int *arr, int left, int right) {
 }
 
 /* find the kth order statistic */
-int lselect(int *arr, int left, int right, int k) {
+int lselect(int arr[], int left, int right, int k) {
     int i, pivotIndex;
 
     for (;;) {
@@ -63,7 +63,7 @@ int lselect(int *arr, int left, int right, int k) {
 }
 
 /* find the median of medians */
-int pivot(int *arr, int left, int right) {
+int pivot(int arr[], int left, int right) {
     if (right - left < 5)
         return insertion(arr, left, right);
 
