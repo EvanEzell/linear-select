@@ -1,6 +1,4 @@
 #include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "mergesort.h"
 
 void swap(int *x, int *y) {
