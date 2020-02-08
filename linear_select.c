@@ -26,14 +26,13 @@ int partition(int arr[], int left, int right, int pivot) {
 /* insertion sort and return index of median */
 int insertion(int arr[], int left, int right) {
     int i, j;
-    i = left + 1;
-    while (i <= right) {
+
+    for (i = left+1; i <= right; i++) {
         j = i;
         while (j > left && arr[j-1] > arr[j]) {
             swap(&arr[j-1],&arr[j]);
             j--;
         }
-        i++;
     }
 
     return floor((left+right)/2);
